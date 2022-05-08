@@ -15,13 +15,13 @@ class CreateStudentTable extends Migration
     {
         Schema::create('student', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('father');
-            $table->string('mother');
+            $table->string('title', 100);
+            $table->string('father', 100);
+            $table->string('mother', 100);
             $table->date('dob');
             $table->string('member_id', 9)->unique();
             $table->string('aadhaar', 12)->unique();
-            $table->unsignedTinyInteger('class');
+            $table->signedTinyInteger('class');
             $table->string('address');
             $table->string('mobile', 10);
             $table->timestamps();
