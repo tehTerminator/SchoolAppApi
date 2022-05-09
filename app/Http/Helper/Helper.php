@@ -2,17 +2,28 @@
 
 namespace App\Http\Helper;
 
-use Exception;
 use Illuminate\Http\Request;
+use Exception;
 
-class Helper {
+/**
+ * Class For Generating Validation Rules
+ */
+class RulesGenerator {
     private array $rules;
     private array $columns;
 
+    /**
+     * @param Request Containing UserData
+     * @return array Containing only data of columns that exists in table
+     */
     public function extractData(Request $request) {
         return $request->only($this->columns);
     }
 
+    /**
+     * @param bool Should Validation include unique Validation Rule
+     * @return array Containing Validation Rule
+     */
     public function getRules($includeUniqueFields = false)
     {
         if ($includeUniqueFields) 
@@ -42,6 +53,9 @@ class Helper {
         return $rules;
     }
 
+    /**
+     * @return array Returns Array of Column which contains unique value
+     */
     private function getUniqueColumns() {
         $uniqueColumns = [];
         foreach($this->columns as $key => $value) 
