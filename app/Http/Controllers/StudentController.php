@@ -5,10 +5,25 @@ namespace app\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use App\Http\Helper;
 
 class StudentController extends Controller
 {
-    public function __construct(){}
+    private Helper $helper;
+    public function __construct(){
+        $rules = [
+            'title' => ['required', 'string', 'max:100'],
+            'father' => ['required', 'string', 'max:100'],
+            'mother' => ['required', 'string', 'max:100'],
+            'dob' => ['required', 'date'],
+            'class' => ['required', 'min:-2', 'max:12'],
+            'address' => ['required', 'string'],
+            'mobile' => ['required'],
+            'member_id' => ['required', 'unique:students,member_id', 'numeric'],
+            'aadhaar' => ['required', 'unique:students,aadhaar', 'numeric']
+        ];
+        $this->helper = new Helper($rules);
+    }
 
     public function create(Request $request)
     {
@@ -41,15 +56,7 @@ class StudentController extends Controller
     }
 
     private function getRules($validateUniqueFields = false) {
-        $rules = [
-            'title' => ['required', 'string', 'max:100'],
-            'father' => ['required', 'string', 'max:100'],
-            'mother' => ['required', 'string', 'max:100'],
-            'dob' => ['required', 'date'],
-            'class' => ['required', 'min:-2', 'max:12'],
-            'address' => ['required', 'string'],
-            'mobile' => ['required']
-        ];
+        
 
         if($validateUniqueFields) {
             $rules['member_id'] = ['required', 'unique:students,member_id', 'numeric'];
